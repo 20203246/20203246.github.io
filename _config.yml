@@ -57,13 +57,13 @@ kramdown:
 
 # 评论系统
 # Disqus（https://disqus.com/）
-disqus_username: 20203246
+# disqus_username: 20203246
 
 # Gitalk
 gitalk:
-  enable: false    #是否开启Gitalk评论
-  clientID: f2c84e7629bb1446c1a4                            #生成的clientID
-  clientSecret: ca6d6139d1e1b8c43f8b2e19492ddcac8b322d0d    #生成的clientSecret
+  enable: true    #是否开启Gitalk评论
+  clientID: Ov23liEefX397kyJfdOi                            #生成的clientID
+  clientSecret: 4c5b628c967903756ba55bb489d3bcd6c430d8d3     #生成的clientSecret
   repo: 20203246.github.io    #仓库名称
   owner: 20203246    #github用户名
   admin: 20203246
