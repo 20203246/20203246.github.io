@@ -1,0 +1,57 @@
+# 将 Vue + Vite 项目构建并部署到 GitHub Pages
+# 部署地址：https://<USERNAME>.github.io/<REPO>/
+name: Deploy Vue to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+# 允许 GITHUB_TOKEN 部署到 Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时间只允许一个部署，避免并发冲突
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        # 本仓库为 <USERNAME>.github.io 用户主页仓库，部署在根路径 '/'，
+        # 使用默认 base 即可（不要加 --base，否则资源路径会 404）。
+        # 若改用普通项目仓库（部署在 /<仓库名>/），请改为：
+        #   run: npm run build -- --base=/${{ github.event.repository.name }}/
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ./dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
