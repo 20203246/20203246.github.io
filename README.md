@@ -30,10 +30,10 @@ https://<USERNAME>.github.io/
 
 ```bash
 git remote add origin git@github.com:<USERNAME>/<USERNAME>.github.io.git
-git push -u origin main
+git push -u origin master
 ```
 
-（当前已配置 `main` 分支；若远程已有内容，请先处理。）
+（当前仓库默认分支为 `master`，workflow 监听的也是 `master`；若远程已有内容，请先处理。）
 
 ### 2. 开启 Pages（只需一次）
 
@@ -41,8 +41,11 @@ git push -u origin main
 
 ### 3. 等待自动部署
 
-推送到 `main` 分支会触发 [`.github/workflows/main.yml`](.github/workflows/main.yml)：安装依赖 → 构建 → 上传 `dist` → 部署。
+推送到 `master` 分支会触发 [`.github/workflows/main.yml`](.github/workflows/main.yml)：安装依赖 → 构建 → 上传 `dist` → 部署。
 也可以在 **Actions** 标签页手动运行「Deploy Vue to GitHub Pages」。
+
+> 注意：**本地不需要执行 `npm run build`**。构建发生在 GitHub Actions 的云端机器上，
+> 本地生成的 `dist/` 已被 `.gitignore` 忽略，不会上传。本地构建只用于自己预览/排错。
 
 ## 关于 `base`（重要）
 
